@@ -52,7 +52,6 @@ class Gerenciamento:
 				return aluno
 		return None
 	
-	
 	@classmethod
 	def excluirAluno(cls, matricula: str):
 		aluno = cls.buscarAluno(matricula)
@@ -75,21 +74,17 @@ class Gerenciamento:
 			if opcao == '1':
 				novo_nome = input("DIGITE O NOVO NOME: ")
 				aluno.setNome(novo_nome)
-				#cls.atualizarAluno(aluno.getMatricula(),novo_nome,aluno.getIdade())
 
 			elif opcao == '2':
 				nova_idade = int(input("DIGITE A NOVA IDADE: "))
 				aluno.setIdade(nova_idade)
-				
-				#cls.atualizarAluno(aluno.getMatricula(),aluno.getNome(),nova_idade)
-			
+							
 			elif opcao == '3':
 				novo_nome = input("\nDIGITE O NOVO NOME: ")
 				nova_idade = int(input("DIGITE A NOVA IDADE: "))
 
 				aluno.setNome(novo_nome)
 				aluno.setIdade(nova_idade)
-				#cls.atualizarAluno(aluno.getMatricula(),novo_nome,nova_idade)
 		
 			elif opcao == '4':
 				break
@@ -157,7 +152,5 @@ class Gerenciamento:
 			else:
 				print("OPCAO INVALIDA")
 				
-
-
 Gerenciamento.menuPrincipal()
 
