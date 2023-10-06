@@ -7,19 +7,6 @@ class Pessoa:
 	def __str__(self):
 		return f'Nome: {self.__nome}, Idade: {self.__idade}'
 
-	def getNome(self):
-		return self.__nome
-	
-	def getIdade(self):
-		return self.__idade
-	
-	def setNome(self, novo_nome: str):
-		self.__nome = novo_nome
-
-	def setIdade(self, nova_idade: int):
-		self.__idade = nova_idade
-	
-	
 class Aluno(Pessoa):
 	def __init__(self, nome: str, idade: int, matricula: str):
 		super().__init__(nome, idade)
@@ -51,6 +38,15 @@ class Gerenciamento:
 			if aluno.getMatricula() == matricula:
 				return aluno
 		return None
+	@classmethod
+	def atualizarAluno(cls, matricula: str, nome: str, idade: int)
+		aluno = cls.buscarAluno(matricula)
+		if aluno:
+			aluno._Aluno__nome = nome
+			aluno._Aluno__idade = idade	
+		else:
+			print("ALUNO NÃO ENCONTRADO")
+
 	
 	@classmethod
 	def excluirAluno(cls, matricula: str):
@@ -63,6 +59,7 @@ class Gerenciamento:
 
 	@classmethod
 	def menuAlterar(cls, aluno): 
+		matricula = input("\nDIGITE A MATRICULA: ")
 		while 1:
 			print("\nMENU ALTERAR:")
 			print("1 - ATUALIZAR NOME")
@@ -73,18 +70,17 @@ class Gerenciamento:
 			
 			if opcao == '1':
 				novo_nome = input("DIGITE O NOVO NOME: ")
-				aluno.setNome(novo_nome)
+				cls.atualuzarAluno(matricula,novo_nome,aluno._Aluno__idade)
 
 			elif opcao == '2':
 				nova_idade = int(input("DIGITE A NOVA IDADE: "))
-				aluno.setIdade(nova_idade)
+			        cls.atualuzarAluno(matricula,aluno._Aluno__idade, nova_idade)
 							
 			elif opcao == '3':
 				novo_nome = input("\nDIGITE O NOVO NOME: ")
 				nova_idade = int(input("DIGITE A NOVA IDADE: "))
 
-				aluno.setNome(novo_nome)
-				aluno.setIdade(nova_idade)
+				cls.atualuzarAluno(matricula,novo_nome, nova_idade)
 		
 			elif opcao == '4':
 				break
@@ -127,16 +123,9 @@ class Gerenciamento:
 
 			elif opcao == '4':
 				if len(cls.alunos)>0:
-					matricula = input("\nDIGITE A MATRICULA: ")
-					aluno = cls.buscarAluno(matricula)
-					if aluno:
-						cls.menuAlterar(aluno)
-
-					else:
-						print("ALUNO NÃO ENCONTRADO")
+					cls.menuAlterar(aluno)
 				else:
 					print("LISTA VAZIA")
-
 
 			elif opcao == '5':
 				if len(cls.alunos)>0:
