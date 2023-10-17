@@ -73,7 +73,8 @@ class Gerenciamento:
 			
 			if opcao == '1':
 				novo_nome = input("DIGITE O NOVO NOME: ")
-				aluno.setNome(novo_nome)
+				#aluno.setNome(novo_nome)
+				aluno._Pessoa__nome = novo_nome
 
 			elif opcao == '2':
 				nova_idade = int(input("DIGITE A NOVA IDADE: "))
