@@ -21,7 +21,7 @@ public class Pessoa {
         System.out.println("CPF: " + cpf);
         System.out.println("Endereco: " + endereco);
         System.out.println("Telefone: " + telefone);
-        System.out.println("Identidade" + identidade);
+        System.out.println("Identidade: " + identidade);
     }
 
     public String getNome() {

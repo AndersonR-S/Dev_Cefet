@@ -13,7 +13,7 @@ public class Consultorio {
 
     public void cadastrarPaciente(Paciente p) {
         for (Paciente i : pacientes)
-            if (i.equals(p)) {
+            if (i.getCpf().equals(p.getCpf())) {
                 System.out.println("Paciente já Cadastrado");
                 return;
             }
@@ -33,7 +33,7 @@ public class Consultorio {
 
     public void cadastrarMedico(Medico m) {
         for (Medico i : medicos)
-            if (i.equals(m)) {
+            if (i.getCrm() == m.getCrm()) {
                 System.out.println("Medico já Cadastrado");
                 return;
             }
@@ -52,13 +52,28 @@ public class Consultorio {
     }
 
     public void cadastrarConsulta(Consulta c) {
-        for (Consulta i : consultas)
+        for (Consulta i : consultas) {
             if (i.equals(c)) {
                 System.out.println("Consulta já Cadastrado");
                 return;
+            } else if (i.getData().equals(c.getData()) && i.getHora().equals(c.getHora())) {
+                System.out.println("Horario já Utilizado");
+                return;
             }
-        consultas.add(c);
-        System.out.println("Consulta Cadastrado");
+        }
+        for (Medico i : medicos) {
+            if (i.getCrm() == c.getCrmMedico()) {
+                for (Paciente j : pacientes) {
+                    if (j.getCpf().equals(c.getCpfPaciente())) {
+                        consultas.add(c);
+                        System.out.println("Consulta Cadastrado");
+                        return;
+                    }
+                }
+            }
+        }
+
+        System.out.println("Medico ou Pacinete não Cadastrado");
     }
 
     public void removerConsulta(String cpfPaciente, int crmMedico) {
@@ -87,7 +102,7 @@ public class Consultorio {
     public void imprimirListaMedicos() {
         if (medicos.isEmpty()) {
             System.out.println();
-            System.out.println("Nenhum Medico Cadastrado\n");
+            System.out.println("Nenhum Medico Cadastrado");
             return;
         }
         for (Medico i : medicos) {
@@ -99,13 +114,22 @@ public class Consultorio {
     public void imprimirListaConsultas() {
         if (consultas.isEmpty()) {
             System.out.println();
-            System.out.println("Nenhum Consulta Cadastrada\n");
+            System.out.println("Nenhum Consulta Cadastrada");
             return;
         }
-        for (Paciente i : pacientes) {
+        for (Consulta i : consultas) {
             i.imprimir();
             System.out.println("\n");
         }
     }
 
+    public void imprimirConsulta(String cpfPaciente, int crmMedico) {
+        for (Consulta i : consultas) {
+            if (i.getCpfPaciente().equals(cpfPaciente) && i.getCrmMedico() == crmMedico) {
+                i.imprimir();
+                return;
+            }
+        }
+        System.out.println("Consulta não encontrado!\n");
+    }
 }

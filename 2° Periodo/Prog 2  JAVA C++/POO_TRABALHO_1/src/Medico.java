@@ -3,12 +3,6 @@ public class Medico extends Pessoa {
     private String especialidade;
     
 
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        // TODO Auto-generated method stub
-        return super.clone();
-    }
-
     public Medico() {
     }
 
@@ -20,7 +14,8 @@ public class Medico extends Pessoa {
 
     public void imprimir(){
         super.imprimir();
-        System.out.println("CRM: "+crm+"\nEspecialidade: "+ especialidade);
+        System.out.println("CRM: "+crm);
+        System.out.println("Especialidade: "+ especialidade);
     }
 
     public int getCrm() {

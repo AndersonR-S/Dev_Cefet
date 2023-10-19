@@ -39,7 +39,7 @@ class Gerenciamento:
 				return aluno
 		return None
 	@classmethod
-	def atualizarAluno(cls, matricula: str, nome: str, idade: int)
+	def atualizarAluno(cls, matricula: str, nome: str, idade: int):
 		aluno = cls.buscarAluno(matricula)
 		if aluno:
 			aluno._Aluno__nome = nome
@@ -74,7 +74,7 @@ class Gerenciamento:
 
 			elif opcao == '2':
 				nova_idade = int(input("DIGITE A NOVA IDADE: "))
-			        cls.atualuzarAluno(matricula,aluno._Aluno__idade, nova_idade)
+			        #cls.atualuzarAluno(matricula,aluno._Aluno__idade, nova_idade)
 							
 			elif opcao == '3':
 				novo_nome = input("\nDIGITE O NOVO NOME: ")
