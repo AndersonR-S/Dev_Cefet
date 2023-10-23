@@ -1,7 +1,10 @@
 public class Pessoa {
-    private String nome, endereco, cpf;
+    private String nome;
+    private String endereco;
+    private String cpf;
     private char sexo;
-    private int telefone, identidade;
+    private int telefone;
+    private int identidade;
 
     public Pessoa() {
     }

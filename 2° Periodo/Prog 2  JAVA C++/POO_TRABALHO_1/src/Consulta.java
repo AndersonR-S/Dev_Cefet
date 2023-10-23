@@ -1,6 +1,9 @@
 public class Consulta {
-    private String data, hora, cpfPaciente;
+    private String data;
+    private String hora;
+    private String cpfPaciente;
     private int crmMedico;
+    private int id;
 
     public Consulta() {
     }  
@@ -13,6 +16,7 @@ public class Consulta {
     }
     
     public void imprimir(){
+        System.out.println("ID: "+ id);
         System.out.println("Data: "+ data);
         System.out.println("Hora: "+ hora);
         System.out.println("CPF do Paciente:" +cpfPaciente);
@@ -43,6 +47,16 @@ public class Consulta {
     public void setCrmMedico(int crmMedico) {
         this.crmMedico = crmMedico;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+
 
     
     

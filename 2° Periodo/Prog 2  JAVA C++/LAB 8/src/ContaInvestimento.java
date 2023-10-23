@@ -1,10 +1,10 @@
 public class ContaInvestimento extends Conta{
-    private int taxaAnual;
+    private float taxaAnual;
 
     public ContaInvestimento() {
     }
 
-    public ContaInvestimento(String nome, int numeroConta, float saldo, int taxaAnual) {
+    public ContaInvestimento(String nome, int numeroConta, float saldo, float taxaAnual) {
         super(nome, numeroConta, saldo);
         this.taxaAnual = taxaAnual;
     }
@@ -24,11 +24,11 @@ public class ContaInvestimento extends Conta{
         System.out.println("Taxa de Retorno Anual: "+ taxaAnual+"\n\n");
     }
 
-    public int getTaxaAnual() {
+    public float getTaxaAnual() {
         return taxaAnual;
     }
 
-    public void setTaxaAnual(int taxaAnual) {
+    public void setTaxaAnual(float taxaAnual) {
         this.taxaAnual = taxaAnual;
     }
     

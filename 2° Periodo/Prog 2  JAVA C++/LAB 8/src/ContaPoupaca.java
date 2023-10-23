@@ -1,14 +1,12 @@
 public class ContaPoupaca extends Conta{
     private int diaDaConta;
-    private String dataJuros;
 
     public ContaPoupaca() {
     }
 
-    public ContaPoupaca(String nome, int numeroConta, float saldo, int diaDaConta, String dataJuros) {
+    public ContaPoupaca(String nome, int numeroConta, float saldo, int diaDaConta) {
         super(nome, numeroConta, saldo);
         this.diaDaConta = diaDaConta;
-        this.dataJuros = dataJuros;
     }
 
     public void saqueComum(float saldo) {
@@ -32,12 +30,5 @@ public class ContaPoupaca extends Conta{
     public void setDiaDaConta(int diaDaConta) {
         this.diaDaConta = diaDaConta;
     }
-    public String getDataJuros() {
-        return dataJuros;
-    }
-    public void setDataJuros(String dataJuros) {
-        this.dataJuros = dataJuros;
-    }
-
     
 }

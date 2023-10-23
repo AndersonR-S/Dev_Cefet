@@ -1,4 +1,7 @@
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Conta {
     private String nome;
@@ -8,12 +11,13 @@ public class Conta {
 
     public Conta() {
     }
-    
+
     public Conta(String nome, int numeroConta, float saldo) {
         this.nome = nome;
         this.numeroConta = numeroConta;
         this.saldo = saldo;
-        Transacao trans = new Transacao("", "Saldo ao Abrir a conta", saldo);
+        this.trancacoes = new ArrayList<Transacao>(); // Inicialize a lista de transações
+        Transacao trans = new Transacao(getDateTime(), "Saldo ao Abrir a conta", saldo);
         this.trancacoes.add(trans);
     }
 
@@ -25,6 +29,8 @@ public class Conta {
 
     public void deposito(int saldo) {
         this.saldo += saldo;
+        Transacao trans = new Transacao(getDateTime(), "Déposito", saldo);
+        setTrancacoes(trans);
         System.out.println("Depósito Efetuada");
 
     }
@@ -33,21 +39,29 @@ public class Conta {
         float saldoNovo = this.saldo - saldo;
         if (saldoNovo >= 0) {
             this.saldo = saldoNovo;
+            Transacao trans = new Transacao(getDateTime(), "Saque", saldo);
+            setTrancacoes(trans);
             System.out.println("Saque Efetuada");
         } else {
             System.out.println("O valor do saque é maior que o saldo da conta");
         }
     }
 
-    public void extrato(){
+    public void extrato() {
         print();
         System.out.println("Transações");
         System.out.println("---------------------");
 
-        for(Transacao i: this.trancacoes)
-            System.out.println(i+"\n");
- 
+        for (Transacao i : this.trancacoes)
+            System.out.println(i + "\n");
+
         System.out.println("---------------------");
+    }
+
+    public String getDateTime() {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        return dateFormat.format(date);
     }
 
     public String getNome() {

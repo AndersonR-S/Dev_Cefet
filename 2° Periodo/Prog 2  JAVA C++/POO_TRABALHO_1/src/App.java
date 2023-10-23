@@ -130,7 +130,7 @@ public class App {
                         sexo = scan.next().charAt(0);
 
                     } while (sexo != 'M' && sexo != 'm' && sexo != 'h' && sexo != 'H');
-;
+                    ;
 
                     while (true) {
                         try {
@@ -199,7 +199,7 @@ public class App {
                 }
                 case 7: {
                     String cpfPaciente;
-                    int crmMedico;
+                    int crmMedico, id;
                     scan.nextLine();
 
                     System.out.print("Digite o CPF do Paciente: ");
@@ -214,8 +214,18 @@ public class App {
                             scan.nextLine();
                         }
                     }
+
+                    while (true) {
+                        try {
+                            System.out.print("Digite o Id da consulta: ");
+                            id = scan.nextInt();
+                            break;
+                        } catch (InputMismatchException e) {
+                            scan.nextLine();
+                        }
+                    }
                     System.out.println();
-                    consultorio.imprimirConsulta(cpfPaciente, crmMedico);
+                    consultorio.imprimirConsulta(cpfPaciente, crmMedico, id);
                     System.out.println();
 
                     break;
@@ -252,7 +262,7 @@ public class App {
                 }
                 case 10: {
                     String cpfPacinete;
-                    int crmMedico;
+                    int crmMedico, id;
 
                     scan.nextLine();
 
@@ -269,8 +279,19 @@ public class App {
                         }
                     }
 
+                    while (true) {
+                        try {
+                            System.out.print("Digite o Id da consulta: ");
+                            id = scan.nextInt();
+                            break;
+                        } catch (InputMismatchException e) {
+                            scan.nextLine();
+                        }
+                    }
+
                     System.out.println();
-                    consultorio.removerConsulta(cpfPacinete, crmMedico);
+                    consultorio.removerConsulta(id, crmMedico, cpfPacinete);
+                    ;
                     System.out.println();
                     break;
                 }

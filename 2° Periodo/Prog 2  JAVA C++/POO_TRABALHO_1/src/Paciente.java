@@ -1,5 +1,6 @@
 public class Paciente extends Pessoa{
-    private String relato, medicacaoConsumidaRegulamente;
+    private String relato;
+    private String medicacaoConsumidaRegulamente;
     
     public Paciente(){
     }

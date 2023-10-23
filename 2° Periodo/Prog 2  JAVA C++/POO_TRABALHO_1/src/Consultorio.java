@@ -4,11 +4,13 @@ public class Consultorio {
     private ArrayList<Medico> medicos;
     private ArrayList<Paciente> pacientes;
     private ArrayList<Consulta> consultas;
+    private int id;
 
     public Consultorio() {
         this.medicos = new ArrayList<Medico>();
         this.consultas = new ArrayList<Consulta>();
         this.pacientes = new ArrayList<Paciente>();
+        id = 0;
     }
 
     public void cadastrarPaciente(Paciente p) {
@@ -51,22 +53,38 @@ public class Consultorio {
         System.out.println("Medico não Encontrado");
     }
 
+    public void verificarId() {
+        if (id == 500)
+            id = 0;
+        else
+            id++;
+    }
+
     public void cadastrarConsulta(Consulta c) {
+
         for (Consulta i : consultas) {
-            if (i.equals(c)) {
+            if (i.getData().equals(c.getData()) && i.getHora().equals(c.getHora())
+                    && i.getCpfPaciente().equals(c.getCpfPaciente()) && i.getCrmMedico() == c.getCrmMedico()) {
                 System.out.println("Consulta já Cadastrado");
                 return;
-            } else if (i.getData().equals(c.getData()) && i.getHora().equals(c.getHora())) {
-                System.out.println("Horario já Utilizado");
+            } else if (i.getData().equals(c.getData()) && i.getHora().equals(c.getHora())
+                    && i.getCrmMedico() == c.getCrmMedico()) {
+                System.out.println("Horario já utilizado pelo Medico");
                 return;
             }
         }
+
         for (Medico i : medicos) {
             if (i.getCrm() == c.getCrmMedico()) {
                 for (Paciente j : pacientes) {
                     if (j.getCpf().equals(c.getCpfPaciente())) {
+
+                        c.setId(id);
+                        verificarId();
+
                         consultas.add(c);
                         System.out.println("Consulta Cadastrado");
+                        c.imprimir();
                         return;
                     }
                 }
@@ -76,9 +94,10 @@ public class Consultorio {
         System.out.println("Medico ou Pacinete não Cadastrado");
     }
 
-    public void removerConsulta(String cpfPaciente, int crmMedico) {
+    public void removerConsulta(int id, int crmMedico, String cpfPaciente) {
+
         for (Consulta i : consultas)
-            if (i.getCrmMedico() == crmMedico && i.getCpfPaciente().equals(cpfPaciente)) {
+            if (i.getCrmMedico() == crmMedico && i.getId()==id && i.getCpfPaciente().equals(cpfPaciente)){
                 consultas.remove(i);
                 System.out.println("Consulta Removido");
                 return;
@@ -123,9 +142,9 @@ public class Consultorio {
         }
     }
 
-    public void imprimirConsulta(String cpfPaciente, int crmMedico) {
+    public void imprimirConsulta(String cpfPaciente, int crmMedico, int id) {
         for (Consulta i : consultas) {
-            if (i.getCpfPaciente().equals(cpfPaciente) && i.getCrmMedico() == crmMedico) {
+            if (i.getCpfPaciente().equals(cpfPaciente) && i.getCrmMedico() == crmMedico && i.getId()==id) {
                 i.imprimir();
                 return;
             }

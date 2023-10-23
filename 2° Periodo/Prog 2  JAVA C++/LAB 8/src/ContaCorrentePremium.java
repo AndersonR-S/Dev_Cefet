@@ -11,8 +11,10 @@ public class ContaCorrentePremium extends Conta{
     }
     public void saqueEspecial(float saldo) {
         float saldoNovo = super.getSaldo() - saldo;
-        if(saldoNovo > this.limiteDeCredito *(-1)){
+        if(saldoNovo >= this.limiteDeCredito *(-1)){
             super.setSaldo(saldoNovo);
+            Transacao trans = new Transacao(super.getDateTime(), "Saque", saldo);
+            super.setTrancacoes(trans);
             System.out.println("Saque Efetuada\n");
         }
         else{
