@@ -262,6 +262,183 @@ public class App {
 
     }
 
+    public void deposito() {
+        Scanner scan = new Scanner(System.in);
+        int opcao = 0;
+        int conta = 0;
+        float sacar = 0;
+
+        System.out.println("\nDeposito:\n");/*  */
+
+        while (true) {
+            try {
+                System.out.print("Digite o numero da Conta: ");
+                conta = scan.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                scan.nextLine();
+            }
+        }
+
+        while (true) {
+            try {
+                System.out.print("Digite o valor do Deposito: ");
+                sacar = scan.nextFloat();
+                break;
+            } catch (InputMismatchException e) {
+                scan.nextLine();
+            }
+        }
+
+        System.out.println("\n1. Conta Corrente Comum");
+        System.out.println("2. Conta Corrente Premium");
+        System.out.println("3. Conta Poupança");
+        System.out.println("4. Conta Investimento");
+        System.out.println("5. Menu Principal");
+        do {
+            try {
+                System.out.print("\nEscolhe uma opção: ");
+                opcao = scan.nextInt();
+
+            } catch (InputMismatchException e) {
+                scan.nextLine();
+                continue;
+            }
+        } while (opcao < 1 || opcao > 5);
+        switch (opcao) {
+            case 1: {
+                for (ContaCorrenteComum cc : contaCC) {
+                    if (cc.getNumeroConta() == conta) {
+                        cc.deposito(conta);
+                        return;
+                    }
+                }
+                System.out.println("Conta não Encontrado");
+
+                break;
+            }
+            case 2: {
+                for (ContaCorrentePremium cc : contaCP) {
+                    if (cc.getNumeroConta() == conta) {
+                        cc.deposito(sacar);
+                        return;
+                    }
+                }
+                System.out.println("Conta não Encontrado");
+                break;
+            }
+            case 3: {
+                for (ContaPoupaca cc : contaP) {
+                    if (cc.getNumeroConta() == conta) {
+                        cc.deposito(sacar);
+                        return;
+                    }
+                }
+                System.out.println("Conta não Encontrado");
+
+                break;
+            }
+            case 4: {
+                for (ContaInvestimento cc : contaI) {
+                    if (cc.getNumeroConta() == conta) {
+                        cc.deposito(sacar);
+                        return;
+                    }
+                }
+                System.out.println("Conta não Encontrado");
+
+                break;
+            }
+            case 5: {
+                break;
+            }
+        }
+
+    }
+
+    public void extrato(){
+        Scanner scan = new Scanner(System.in);
+        int opcao = 0;
+        int conta = 0;
+
+        System.out.println("\nExtrato:\n");/*  */
+
+        while (true) {
+            try {
+                System.out.print("Digite o numero da Conta: ");
+                conta = scan.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                scan.nextLine();
+            }
+        }
+
+        System.out.println("\n1. Conta Corrente Comum");
+        System.out.println("2. Conta Corrente Premium");
+        System.out.println("3. Conta Poupança");
+        System.out.println("4. Conta Investimento");
+        System.out.println("5. Menu Principal");
+        do {
+            try {
+                System.out.print("\nEscolhe uma opção: ");
+                opcao = scan.nextInt();
+
+            } catch (InputMismatchException e) {
+                scan.nextLine();
+                continue;
+            }
+        } while (opcao < 1 || opcao > 5);
+        switch (opcao) {
+            // exibe número da conta, nome do titular, transações e saldo. 
+            case 1: {
+                for (ContaCorrenteComum cc : contaCC) {
+                    if (cc.getNumeroConta() == conta) {
+                        cc.extrato();;
+                        return;
+                    }
+                }
+                System.out.println("Conta não Encontrado");
+
+                break;
+            }
+            case 2: {
+                for (ContaCorrentePremium cc : contaCP) {
+                    if (cc.getNumeroConta() == conta) {
+                        cc.extrato();
+                        return;
+                    }
+                }
+                System.out.println("Conta não Encontrado");
+                break;
+            }
+            case 3: {
+                for (ContaPoupaca cc : contaP) {
+                    if (cc.getNumeroConta() == conta) {
+                        cc.extrato();
+                        return;
+                    }
+                }
+                System.out.println("Conta não Encontrado");
+
+                break;
+            }
+            case 4: {
+                for (ContaInvestimento cc : contaI) {
+                    if (cc.getNumeroConta() == conta) {
+                        cc.extrato();
+                        return;
+                    }
+                }
+                System.out.println("Conta não Encontrado");
+
+                break;
+            }
+            case 5: {
+                break;
+            }
+        }
+    }
+
     public static void main(String[] args) throws Exception {
         App app = new App();
         Scanner scan = new Scanner(System.in);
@@ -295,9 +472,10 @@ public class App {
 
                     break;
                 case 3:
-
+                    app.deposito();
                     break;
                 case 4:
+                    app.extrato();
                     break;
                 case 5:
                     System.out.println("Saindo do programa");

@@ -27,7 +27,7 @@ public class Conta {
         System.out.println("Saldo: " + saldo);
     }
 
-    public void deposito(int saldo) {
+    public void deposito(float saldo) {
         this.saldo += saldo;
         Transacao trans = new Transacao(getDateTime(), "Déposito", saldo);
         setTrancacoes(trans);
@@ -35,19 +35,9 @@ public class Conta {
 
     }
 
-    public void saqueComum(float saldo) {
-        float saldoNovo = this.saldo - saldo;
-        if (saldoNovo >= 0) {
-            this.saldo = saldoNovo;
-            Transacao trans = new Transacao(getDateTime(), "Saque", saldo);
-            setTrancacoes(trans);
-            System.out.println("Saque Efetuada");
-        } else {
-            System.out.println("O valor do saque é maior que o saldo da conta");
-        }
-    }
 
     public void extrato() {
+        System.out.println();
         print();
         System.out.println("Transações");
         System.out.println("---------------------");

@@ -13,6 +13,8 @@ public class ContaPoupaca extends Conta{
         float saldoNovo = super.getSaldo() - saldo;
         if (saldoNovo >= 0) {
              super.setSaldo(saldoNovo);
+             Transacao trans = new Transacao(getDateTime(), "Saque", saldo);
+             super.setTrancacoes(trans);
             System.out.println("Saque Efetuada");
         } else {
             System.out.println("O valor do saque é maior que o saldo da conta");

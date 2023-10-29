@@ -13,9 +13,11 @@ public class ContaInvestimento extends Conta{
         float saldoNovo = super.getSaldo() - saldo;
         if (saldoNovo >= 0) {
              super.setSaldo(saldoNovo);
-            System.out.println("Saque Efetuada");
+             Transacao trans = new Transacao(getDateTime(), "Saque", saldo);
+             super.setTrancacoes(trans);
+            System.out.println("Saque Efetuada\n");
         } else {
-            System.out.println("O valor do saque é maior que o saldo da conta");
+            System.out.println("O valor do saque é maior que o saldo da conta\n");
         }
     }
 
