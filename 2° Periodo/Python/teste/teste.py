@@ -9,7 +9,18 @@ def change_border_color(widget, color):
     style.map('TEntry', fieldbackground=[('active', color)])
 
 def verificar():
-    label_textAviso.set("entrouu")
+
+    style = ttk.Style()
+    style.map('TEntry', fieldbackground=[('active', 'red')])
+
+    
+    entrada_diatanciaMax.config(style='custom.TEntry')
+
+
+    label_textAviso.config(text="erro", fg="red", font="Times 16")
+
+    entrada_diatanciaMax.config(fieldbackground="red")
+
     distancia_max = entrada_diatanciaMax.get()
     aceleracao_cv = entrada_aceleracaoCV.get()
     aceleracao_ca = entrada_aceleracaoCA.get()
