@@ -1,13 +1,16 @@
 #include "No.hpp"
 
 
-No::No(){}
-
-No::No(ClienteBanco* dado, bool prioridade){
-    this->dado = dado;
-    this->prioridade = prioridade;
+No::No(){
+    this->dado = nullptr;
     this->proximo = nullptr;
+    
+}
 
+No::No(ClienteBanco* _dado, bool _prioridade){
+    this->dado = _dado;
+    this->prioridade = _prioridade;
+    this->proximo = nullptr;
     }
 
 void No::_setDado(ClienteBanco* dado){

@@ -1,10 +1,11 @@
 #include "ClienteBanco.hpp"
 
-ClienteBanco::ClienteBanco(){}
-ClienteBanco::ClienteBanco(string nome, string cpf, string agencia, string conta):Pessoa(nome, cpf), Agencia(agencia), NumeroDaConta(conta){}
 
-void ClienteBanco::_print(){
+ClienteBanco::ClienteBanco(){}
+ClienteBanco::ClienteBanco(string _nome, string _cpf, string _agencia, string _conta):Pessoa(_nome, _cpf), Agencia(_agencia), NumeroDaConta(_conta){}
+
+void ClienteBanco::print(){
     Pessoa::_print();
-    cout<<"Agencia: "+Agencia;
-    cout<<"Conta: "+ NumeroDaConta;
+    cout<<"Agencia: "<<Agencia;
+    cout<<"\tConta: "<<NumeroDaConta;
 }

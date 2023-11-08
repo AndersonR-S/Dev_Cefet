@@ -1,6 +1,5 @@
 #ifndef CLIENTEBANCO_HPP
 #define CLIENTEBANCO_HPP
-
 #include "Pessoa.hpp"
 
 class ClienteBanco: public Pessoa{
@@ -12,7 +11,7 @@ public:
     ClienteBanco();
     ClienteBanco(string nome, string cpf, string agencia, string conta);
 
-    void _print();
+    void print();
 
 };
 

@@ -12,17 +12,9 @@ private:
     string cpf;
 
 public:
-    Pessoa(sring nome, string cpf);
+    Pessoa(string nome, string cpf);
     Pessoa();
 
     void _print();
 };
 #endif
-
-Pessoa::Pessoa(string nome, string cpf):nome(nome),cpf(cpf){}
-Pessoa::Pessoa(){}
-
-void Pessoa::_print(){
-    cout<<"Nome: "+nome;
-    cout<<"Cpf: "+cpf;
-}

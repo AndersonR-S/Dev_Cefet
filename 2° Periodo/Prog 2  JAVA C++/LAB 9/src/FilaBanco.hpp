@@ -6,10 +6,15 @@
 class FilaBanco{
 private:
     No *Fila;
+    No *cauda;
     int quantidade;
-    No* proximo;
 
 public:
+    FilaBanco();
+    void enqueue(ClienteBanco *dado);
+    void dequeue();
+    void printQueue();
+    bool isEmpty();
 
 };
 #endif

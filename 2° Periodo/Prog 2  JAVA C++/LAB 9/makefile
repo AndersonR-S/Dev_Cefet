@@ -1,40 +1,24 @@
-CXX      := -g++
-#CXXFLAGS := -Wall -Wextra -Werror
-LDFLAGS  := -lstdc++ -lm
-BUILD    := ./build
-OBJ_DIR  := $(BUILD)/objects
-APP_DIR  := $(BUILD)/
-TARGET   := app
-INCLUDE  := -Iinclude/
-SRC      :=  $(wildcard src/*.cpp)
+CC = g++
+CFLAGS = -Wall
+SRC_DIR = src
+BUILD_DIR = build
+EXECUTABLE = App
 
-OBJECTS := $(SRC:%.cpp=$(OBJ_DIR)/%.o)
 
-all: build $(APP_DIR)/$(TARGET)
+SRCS := $(wildcard $(SRC_DIR)/*.cpp)
 
-$(OBJ_DIR)/%.o: %.cpp
-	@mkdir -p $(@D)
-	$(CXX) $(CXXFLAGS) $(INCLUDE) -o $@ -c $<
+OBJS := $(patsubst $(SRC_DIR)/%.cpp, $(BUILD_DIR)/%.o, $(SRCS))
 
-$(APP_DIR)/$(TARGET): $(OBJECTS)
-	@mkdir -p $(@D)
-	$(CXX) $(CXXFLAGS) $(INCLUDE) $(LDFLAGS) -o $(APP_DIR)/$(TARGET) $(OBJECTS)
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
+	$(CC) $(CFLAGS) -c -o $@ $<
 
-.PHONY: all build clean debug release run
+$(BUILD_DIR)/$(EXECUTABLE): $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $^
 
-build:
-	@mkdir -p $(APP_DIR)
-	@mkdir -p $(OBJ_DIR)
-
-debug: CXXFLAGS += -DDEBUG -g
-debug: all
-
-release: CXXFLAGS += -O3
-release: all
+all: $(BUILD_DIR/)/$(EXECUTABLE)
 
 clean:
-	-@rm -rvf $(OBJ_DIR)/*
-	-@rm -rvf $(APP_DIR)/*
+	rm -f $(BUILD_DIR)/*.o $(EXECUTABLE)
 
 run:
-	./$(BUILD)/$(TARGET)
+	./$(BUILD_DIR)/$(EXECUTABLE)
