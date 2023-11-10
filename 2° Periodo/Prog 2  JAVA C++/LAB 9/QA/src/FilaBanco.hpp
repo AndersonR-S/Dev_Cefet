@@ -12,6 +12,7 @@ private:
 public:
     FilaBanco();
     void enqueue(ClienteBanco *dado);
+    void enqueuePriority(ClienteBanco *dado);
     void dequeue();
     void printQueue();
     bool isEmpty();

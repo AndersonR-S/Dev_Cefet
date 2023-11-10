@@ -20,5 +20,9 @@ ClienteBanco* _getDado();
 void _setProximo(No *dado);
 No *_getProximo();
 
+bool _getPrioridade(){
+    return prioridade;
+}
+
 };
 #endif

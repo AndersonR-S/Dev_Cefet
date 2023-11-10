@@ -1,6 +1,6 @@
 #include <iostream>
 #include <stdexcept>
-#include <limits> // Inclua esta biblioteca
+#include <limits>
 #include "FilaBanco.hpp"
 
 using namespace std;
@@ -19,6 +19,24 @@ void inserir(FilaBanco *fila){
    getline(cin, conta);
 
     fila->enqueue(new ClienteBanco(nome, cpf, agencia, conta));
+   
+}
+
+void inserirPrioridade(FilaBanco *fila){
+    cin.ignore();
+    string nome, cpf, agencia, conta;
+    cout<<endl<<"Adicionando Cliente com Prioridade...."<<endl;
+
+   cout << "Nome: ";
+   getline(cin, nome);
+   cout<<"Cpf: ";
+   getline(cin, cpf);
+   cout<<"Agencia: ";
+   getline(cin,agencia);
+   cout<<"Conta: ";
+   getline(cin, conta);
+
+    fila->enqueuePriority(new ClienteBanco(nome, cpf, agencia, conta));
    
 }
 
@@ -54,20 +72,18 @@ int main() {
                 inserir(fila);
                 break;
             case 2:
-                // Adicionar cliente com atendimento prioritário
+                inserirPrioridade(fila);
                 break;
             case 3:
                 fila->dequeue();
                 break;
             case 4:
                  fila->printQueue();
-                // Listar a fila
                 break;
         case 5:
                cout <<endl<< "A fila está vazia? " << (fila->isEmpty() ? "Sim" : "Não") << endl;
                break;             
             case 6:
-                // Sair
                 exit(0);
                 break;
         }

@@ -4,8 +4,8 @@
 
 class ClienteBanco: public Pessoa{
 private:
-    string NumeroDaConta;
     string Agencia;
+    string NumeroDaConta;
 public:
 
     ClienteBanco();
