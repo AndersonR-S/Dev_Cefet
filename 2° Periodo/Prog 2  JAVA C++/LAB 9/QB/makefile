@@ -18,7 +18,6 @@ all: $(BUILD_DIR/)/$(EXECUTABLE)
 
 clean:
 	rm -f $(BUILD_DIR)/*.o
-	
 
 run:
 	./$(BUILD_DIR)/$(EXECUTABLE)

@@ -1,0 +1,53 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+df = pd.read_excel("/home/anderson/Documentos/Dev_Cefet/2° Periodo/Python/trabalho/dados_de_vendas.xlsx", sheet_name="Vendas")
+
+# Define e converte a ordem dos meses usando uma lista ordenada
+ordem_meses = [
+    "janeiro", "fevereiro", "março", "abril", "maio", "junho",
+    "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"
+]
+
+df["mes"] = pd.Categorical(df["mes"], categories=ordem_meses, ordered=True)
+
+abreviacao = [
+    "jan", "fev", "mar", "abr", "mai", "jun",
+    "jul", "ago", "set", "out", "nov", "dez"
+]
+
+# Calcula as métricas necessárias
+receita_total = df["valor_da_venda"].sum()
+media_de_vendas_por_produto = df.groupby("produto")["valor_da_venda"].mean()
+quantidade_vendida_por_produto = df.groupby("produto")["quantidade_vendida"].sum()
+top_produtos = quantidade_vendida_por_produto.sort_values(ascending=False).head(5)
+receita_mensal = df.groupby("mes")["valor_da_venda"].sum()
+
+# Configuração dos subplots
+fig, axs = plt.subplots(2, 2, figsize=(12, 10))
+
+# Gráfico de linhas para mostrar a receita de vendas por mês
+axs[0, 0].plot(abreviacao, receita_mensal.values)
+axs[0, 0].set(xlabel="Mês", ylabel="Receita (R$)")
+axs[0, 0].set_title("Receita Mensal")
+
+# Gráfico de barras para mostrar as vendas por produto (top 5)
+axs[0, 1].bar(top_produtos.index, top_produtos.values, color="skyblue")
+axs[0, 1].set(xlabel="Produto", ylabel="Quantidade vendida")
+axs[0, 1].set_title("Produtos por Quantidade Vendida")
+
+# Gráfico de dispersão para mostrar a relação entre o valor da venda e a quantidade vendida
+axs[1, 0].scatter(df["valor_da_venda"], df["quantidade_vendida"], alpha=0.5)
+axs[1, 0].set(xlabel="Valor da venda (R$)", ylabel="Quantidade vendida")
+axs[1, 0].set_title("Relação entre Valor e Quantidade")
+
+# Gráfico da relação da receita total com a receita mensal em porcentagem
+porcentagem_mensal = (receita_mensal / receita_total) * 100
+axs[1, 1].bar(abreviacao, porcentagem_mensal.values, color="skyblue")
+axs[1, 1].set(xlabel="Mês", ylabel="Porcentagem do valor total (%)")
+axs[1, 1].set_title("Porcentagem da Receita Mensal em relação ao Total")
+
+
+plt.tight_layout()
+plt.show()
