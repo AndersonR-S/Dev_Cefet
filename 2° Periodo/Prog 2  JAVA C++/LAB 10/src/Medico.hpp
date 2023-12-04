@@ -1,5 +1,5 @@
 #ifndef MEDICO_HPP
-#define MEDINE_HPP
+#define MEDICO_HPP
 
 #include "Pessoa.hpp"
 

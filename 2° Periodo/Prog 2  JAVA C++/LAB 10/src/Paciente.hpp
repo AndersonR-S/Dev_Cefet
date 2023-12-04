@@ -32,7 +32,7 @@ public:
     string getDataUltimaConsulta();
 
     void setMedicacao(string medicacao);
-    string getMedicao();
+    string getMedicacao();
 };
 
 #endif
