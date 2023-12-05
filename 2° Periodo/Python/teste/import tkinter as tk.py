@@ -12,14 +12,18 @@ def simular_corrida():
     # Inicialize variáveis
     tempo = 0
     posicao = 0
+    velocidade_final = velocidade_inicial  # Inicializa a velocidade final com a inicial
 
     # Função para atualizar a simulação em cada iteração
     def atualizar_simulacao():
-        nonlocal tempo, posicao
+        nonlocal tempo, posicao, velocidade_final
 
         if tempo <= tempo_total:
-            # Atualiza a posição usando a equação de movimento
-            posicao = 0.5 * aceleracao * tempo ** 2 + velocidade_inicial * tempo
+            # Atualiza a posição usando a equação de Torricelli
+            posicao = posicao + velocidade_final * tempo + 0.5 * aceleracao * tempo**2
+
+            # Atualiza a velocidade final usando a equação de Torricelli
+            velocidade_final = sqrt(velocidade_inicial**2 + 2 * aceleracao * posicao)
 
             # Verifique se a posição do carro excede o comprimento da pista
             if posicao > comprimento_pista:
@@ -31,20 +35,15 @@ def simular_corrida():
             carro_y = 100  # Altura do carro
             canvas.create_image(carro_x, carro_y, anchor=tk.W, image=carro_imagem, tags="carro")
 
-            # Calcula o tempo com base na posição atual
-            if aceleracao != 0:
-                tempo = sqrt((2 * posicao) / aceleracao)
-            else:
-                tempo = posicao / velocidade_inicial
-
             # Calcula o tempo de atualização com base no comprimento da pista
             taxa_atualizacao = (tempo_total / comprimento_pista) * 1000
 
             # Atualiza o rótulo de exibição
-            resultado["text"] = f"Tempo: {tempo:.2f} s, Posição: {posicao:.2f} m"
+            resultado["text"] = f"Tempo: {tempo:.2f} s, Posição: {posicao:.2f} m, Velocidade Final: {velocidade_final:.2f} m/s"
 
             # Agende a próxima atualização
             janela.after(int(taxa_atualizacao), atualizar_simulacao)
+            tempo += 1  # Incrementa o tempo para a próxima iteração
         else:
             resultado["text"] = "Simulação concluída."
 
@@ -78,7 +77,7 @@ entrada_comprimento_pista = tk.Entry(janela)
 entrada_comprimento_pista.pack()
 
 # Carregue a imagem do carro
-carro_imagem_original = Image.open("carro.png")
+carro_imagem_original = Image.open("img/carro.png")
 carro_imagem_redimensionada = carro_imagem_original.resize((80, 40), Image.ANTIALIAS)
 carro_imagem = ImageTk.PhotoImage(carro_imagem_redimensionada)
 
@@ -93,5 +92,9 @@ canvas.pack()
 # Rótulo para exibir o resultado da simulação
 resultado = tk.Label(janela, text="")
 resultado.pack()
+
+
+
+
 
 janela.mainloop()
