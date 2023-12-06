@@ -5,8 +5,21 @@ import dash_bootstrap_components as dbc
 import plotly.express as px
 import plotly.graph_objects as go
 
+from math import sqrt
+import tkinter as tk
+import numpy as np
 import sympy as sp
 from PIL import Image
+import base64
+
+with open("logo.jpeg", "rb") as image_file:
+    encoded_image = base64.b64encode(image_file.read()).decode("utf-8")
+
+
+#margem de erro nos graficos
+tam = 0.01
+
+tam = float(tam)
 
 main_config = {
     "hovermode": "x unified",
@@ -20,11 +33,18 @@ main_config = {
     "margin": {"l":0, "r":0, "t":10, "b":0}
 }
 
+def Corrida():
+    janela = tk.Tk()
+    janela.title("Simulador de Corrida de Carro")
+    # Defina o tamanho da janela para 1200x900 pixels
+    janela.geometry("1200x900")
+    janela.mainloop()
+    
 def calcular_tempo(s, s0, v0, a):
-    s = int(s)
-    s0 = int(s0)
-    v0 = int(v0)
-    a = int(a)
+    s = float(s)
+    s0 = float(s0)
+    v0 = float(v0)
+    a = float(a)
     t = sp.symbols('t')
     eq = sp.Eq(s, s0 + v0 * t + 0.5 * a * t**2)
     solucoes = sp.solve(eq, t)
@@ -33,7 +53,6 @@ def calcular_tempo(s, s0, v0, a):
     tempos_reais = [solucao.evalf() for solucao in solucoes if solucao.is_real and solucao.evalf() >= 0]
 
     if not tempos_reais:
-        print("Erro: A equação não possui solução real positiva.")
         return 0
 
     return max(tempos_reais)
@@ -42,6 +61,9 @@ def distanciaGrafico(tempo,vo, a):
     deslocamento = [vo*t+0.5*a*t**2 for t in tempo]
     return deslocamento
 
+def velocidadeGrafico(diatancia, vo, a):
+    velocidade = [sqrt(vo**2 + 2*a*x) for x in diatancia]
+    return velocidade
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
@@ -73,7 +95,6 @@ app.layout = html.Div(
 
                     html.Div([
                         dbc.Button("Começar", id="button_iniciar", style={"padding": "6px", "margin": "10px", "background": "green", "border": "green", "font-size": "17px"}),
-                        dbc.Button("Limpar", id="button_limpar", style={"padding": "6px", "margin": "10px", "font-size": "17px"}),
                     ], style={"text-align": "center", "padding": "20px"})
 
                 ], style={"height": "97vh", "padding": "20px"}
@@ -85,16 +106,47 @@ app.layout = html.Div(
                     dbc.Col(
                         dbc.Card([
                             html.H4(children="Esperando o Vencedor", id= "titulo_ganhador"),
-                            html.Img(id="img_ganahdor", src="", width="60%", className="mx-auto d-block", style={'marginTop':'20px'})                        ], style={"height": "45vh", "text-align": "center","padding": "20px"}),
+                            html.Img(id="img_ganhador", src="", style={'marginTop':'20px','class':"fit-picture"})                        ], style={"height": "45vh", "text-align": "center","padding": "20px"}),
                         sm=4,style={"text-align": "center"}
                     ),
                     dbc.Col([
                         dbc.Row([
                             dbc.Row([
-                                    dbc.Card([], style={"height": "21vh", "text-align": "center","padding": "20px"})
-                            ], style={"marginBottom":"27px"}),
+                                    dbc.Card([
+                                        dbc.Row([
+                                            html.H4(children="Equações Utilizadas", id= "titulo_vermelho"),
+                                            html.Hr()
+                                        ]),
+                                        dbc.Row([
+                                            dbc.Col([
+                                                html.H4(children=" S = So + VoT + 0.5aT²", style={'fontFamily': 'Sunday Morning', 'paddingTop':'20px'}),
+                                            ]),
+                                            dbc.Col([
+                                                html.H4(children=" V² = Vo² + 2a(S-So)", style={'fontFamily': 'Sunday Morning', 'paddingTop':'20px'}),                                            ])
+                                        ])
+                                    ], style={"height": "18vh","padding": "20px"})
+                            ], style={"marginBottom":"27px",'text-align':'center'}),
                             dbc.Row([
-                                    dbc.Card([], style={"height": "21vh", "text-align": "center","padding": "20px"})
+                                    dbc.Card([
+                                        dbc.Row([
+                                            dbc.Col([
+                                                html.H4(children="Dados do Carro Vermelho", id= "titulo_vermelho"),
+                                                html.Hr(),
+                                                html.H6(children="Tempo: --", id= "cv_tempo"),
+                                                html.H6(children="Aceleração: --", id= "cv_aceleracao"),
+                                                html.H6(children="Velocidade Inicial: --", id= "cv_velocidadeI"),
+                                                html.H6(children="Velocidade Final: --", id= "cv_velociadeF"),
+                                            ]),
+                                            dbc.Col([
+                                                html.H4(children="Dados do Carro Azul", id= "titulo_vermelho"),
+                                                html.Hr(),
+                                                html.H6(children="Tempo: --", id= "ca_tempo"),
+                                                html.H6(children="Aceleração: --", id= "ca_aceleracao"),
+                                                html.H6(children="Velocidade Inicial: --", id= "ca_velocidadeI"),
+                                                html.H6(children="Velocidade Final: --", id= "ca_velociadeF"),
+                                            ])
+                                        ])
+                                    ], style={"height": "24vh","padding": "20px"})
                             ])
                         ])
 
@@ -165,7 +217,7 @@ def highlight_inputs(n_clicks, distancia, velocidade_inicial_cv, aceleracao_cv, 
 #ganhador
 @app.callback([
     Output('titulo_ganhador','children'),
-    Output('img_ganahdor','src')
+    Output('img_ganhador','src')
 ],
      [Input('button_iniciar', 'n_clicks')],
      [State('input_pista', 'value'),
@@ -174,7 +226,7 @@ def highlight_inputs(n_clicks, distancia, velocidade_inicial_cv, aceleracao_cv, 
      State('input_velocidade_inicial_ca', 'value'),
      State('input_aceleracao_ca', 'value')]
 )
-def ganhador(n_clicks, distancia,velocidade_icv, aceleracao_cv, velocidade_ica, aceleracao_ca):
+def ganhador(n_clicks, distancia,velocidade_icv = 0, aceleracao_cv=0, velocidade_ica=0, aceleracao_ca=0):
     if distancia == 0 and velocidade_icv == 0 and aceleracao_cv == 0 and velocidade_ica == 0 and aceleracao_ca == 0:
         return 'Informe os valores corretamente', ""
 
@@ -186,27 +238,32 @@ def ganhador(n_clicks, distancia,velocidade_icv, aceleracao_cv, velocidade_ica, 
     if tempo_ca != 0 and tempo_cv != 0:
             if tempo_ca < tempo_cv:
                 mensagem = 'O ganhador é o Carro Azul'
-                return mensagem , "carro.png"
+                return mensagem , image_file
             elif tempo_ca == tempo_cv:
                 mensagem = "Deu Empate"
-                return mensagem , "carro.png"
+                return mensagem , image_file
             else:
                 mensagem = 'O ganhador é o Carro Vermelho'
-                return mensagem , "carro.png"
+                return mensagem , image_file
     elif tempo_ca !=0 and tempo_cv ==0:
         mensagem = 'O ganhador é o Carro Azul'
-        return mensagem , "carro.png"
+        return mensagem , image_file
     
     elif tempo_ca ==0 and tempo_cv !=0:
         mensagem = 'O ganhador é o Carro Vermelho'
-        return mensagem , "carro.png"
+        return mensagem , image_file
     else:
-        return 'Informe os valores corretamente', ""
-#grafico 1 e 2
+        return 'Informe os valores corretamente', "logo.jpeg"
+
+#grafico 1 
 @app.callback([
-    #Output('titulo_ganhadorr','children')
      Output('figura1','figure'),
-   # Output('figuera2','figure')
+     Output('cv_tempo','children'),
+     Output('ca_tempo','children'),
+     Output('cv_aceleracao','children'),
+     Output('ca_aceleracao','children'),
+     Output('cv_velocidadeI','children'),
+     Output('ca_velocidadeI','children')
 ],
      [Input('button_iniciar', 'n_clicks')],
      [State('input_pista', 'value'),
@@ -215,29 +272,64 @@ def ganhador(n_clicks, distancia,velocidade_icv, aceleracao_cv, velocidade_ica, 
      State('input_velocidade_inicial_ca', 'value'),
      State('input_aceleracao_ca', 'value')]
 )
-def graf1(n_clicks, distancia, velocidade_icv, aceleracao_cv, velocidade_ica, aceleracao_ca):
-    tempo_cv = calcular_tempo(distancia, 0, velocidade_icv, aceleracao_cv)
+def graf1(n_clicks, distancia =0 , velocidade_icv= 0, aceleracao_cv= 0, velocidade_ica= 0, aceleracao_ca= 0):
+    tempo_cv= calcular_tempo(distancia, 0, velocidade_icv, aceleracao_cv)
     tempo_ca = calcular_tempo(distancia, 0, velocidade_ica, aceleracao_ca)
 
-    vec_tempo_cv = [x for x in range(int(tempo_cv) + 1)]
-    vec_tempo_ca = [x for x in range(int(tempo_ca) + 1)]
+    vec_tempo_cv = np.arange(0, tempo_cv + tam, tam)
+    vec_tempo_ca = np.arange(0, tempo_ca + tam, tam)
 
-    deslocamento_cv = distanciaGrafico(vec_tempo_cv, int(velocidade_icv), int(aceleracao_cv))
-    deslocamento_ca = distanciaGrafico(vec_tempo_ca, int(velocidade_ica), int(aceleracao_ca))
+    deslocamento_cv = distanciaGrafico(vec_tempo_cv, float(velocidade_icv), float(aceleracao_cv))
+    deslocamento_ca = distanciaGrafico(vec_tempo_ca, float(velocidade_ica), float(aceleracao_ca))
 
     fig = go.Figure()
 
-    # Add traces for Carro Vermelho (cv) and Carro Azul (ca)
-    fig.add_trace(go.Scatter(x=vec_tempo_cv, y=deslocamento_cv, mode='lines', name='Carro Vermelho'))
-    fig.add_trace(go.Scatter(x=vec_tempo_ca, y=deslocamento_ca, mode='lines', name='Carro Azul'))
-
-    # Set colors for each trace
-    fig.update_traces(marker=dict(color=['red']), selector=dict(name='Carro Vermelho'))
-    fig.update_traces(marker=dict(color=['blue']), selector=dict(name='Carro Azul'))
+    fig.add_trace(go.Scatter(x=vec_tempo_cv, y=deslocamento_cv, mode='lines', name='Carro Vermelho', line=dict(color='red')))
+    fig.add_trace(go.Scatter(x=vec_tempo_ca, y=deslocamento_ca, mode='lines', name='Carro Azul', line=dict(color='blue')))
 
     fig.update_layout(main_config, yaxis={'title': 'Distância(m)'}, xaxis={'title': "Tempo(s)"}, height=425)
     fig.update_layout({"legend": {"yanchor": "top", "y": 0.99, "font": {"color": "white", 'size': 10}}})
-    return [fig]
+    
+    return fig, f'Tempo: {float(tempo_cv):.2f} s', f'Tempo: {float(tempo_ca):.2f} s', f'Aceleracao: {float(aceleracao_cv):.2f} m/s²', f'Aceleracao: {float(aceleracao_ca):.2f} m/s²', f'Velociade: {float(velocidade_icv):.2f} m/s', f'Velociade: {float(velocidade_ica):.2f} m/s'
+
+#grafico 2
+@app.callback([
+     Output('figura2','figure'),
+     Output('cv_velociadeF','children'),
+     Output('ca_velociadeF','children')
+],
+     [Input('button_iniciar', 'n_clicks')],
+     [State('input_pista', 'value'),
+     State('input_velocidade_inicial_cv', 'value'),
+     State('input_aceleracao_cv', 'value'),
+     State('input_velocidade_inicial_ca', 'value'),
+     State('input_aceleracao_ca', 'value')]
+)
+def graf2(n_clicks, distancia = 0, velocidade_icv = 0, aceleracao_cv = 0, velocidade_ica = 0, aceleracao_ca = 0):
+    tempo_cv= calcular_tempo(distancia, 0, velocidade_icv, aceleracao_cv)
+    tempo_ca = calcular_tempo(distancia, 0, velocidade_ica, aceleracao_ca)
+
+    vec_tempo_cv = np.arange(0, tempo_cv + tam, tam)
+    vec_tempo_ca = np.arange(0, tempo_ca + tam, tam)
+
+    deslocamento_cv = distanciaGrafico(vec_tempo_cv, float(velocidade_icv), float(aceleracao_cv))
+    deslocamento_ca = distanciaGrafico(vec_tempo_ca, float(velocidade_ica), float(aceleracao_ca))
+
+    velocidade_cv = velocidadeGrafico(deslocamento_cv, float(velocidade_icv), float(aceleracao_cv))
+    velocidade_ca = velocidadeGrafico(deslocamento_ca, float(velocidade_ica), float(aceleracao_ca))
+
+    velocidadeF_cv = float(velocidade_cv[-1])
+    velocidadeF_ca = float(velocidade_ca[-1])
+
+    fig = go.Figure()
+
+    fig.add_trace(go.Scatter(x=deslocamento_cv, y=velocidade_cv, mode='lines', name='Carro Vermelho', line=dict(color='red')))
+    fig.add_trace(go.Scatter(x=deslocamento_ca, y=velocidade_ca, mode='lines', name='Carro Azul', line=dict(color='blue')))
+
+    fig.update_layout(main_config, yaxis={'title': 'Velociade(m/s)'}, xaxis={'title': "Distância(m)"}, height=425)
+    fig.update_layout({"legend": {"yanchor": "top", "y": 0.99, "font": {"color": "white", 'size': 10}}})
+    
+    return fig, f'Velocidade Final: {velocidadeF_cv:.2f} m/s', f'Velocidade Final: {velocidadeF_ca:.2f} m/s'
 
 if __name__ == "__main__":
     app.run_server(debug=True)
