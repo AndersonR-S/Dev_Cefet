@@ -12,9 +12,6 @@ import sympy as sp
 from PIL import Image
 import base64
 
-with open("logo.jpeg", "rb") as image_file:
-    encoded_image = base64.b64encode(image_file.read()).decode("utf-8")
-
 
 #margem de erro nos graficos
 tam = 0.01
@@ -234,6 +231,7 @@ def ganhador(n_clicks, distancia,velocidade_icv = 0, aceleracao_cv=0, velocidade
     tempo_cv = calcular_tempo(distancia, 0, velocidade_icv, aceleracao_cv)
     tempo_ca = calcular_tempo(distancia, 0,velocidade_ica, aceleracao_ca)
 
+    image_file= ""
 
     if tempo_ca != 0 and tempo_cv != 0:
             if tempo_ca < tempo_cv:
@@ -253,7 +251,7 @@ def ganhador(n_clicks, distancia,velocidade_icv = 0, aceleracao_cv=0, velocidade
         mensagem = 'O ganhador é o Carro Vermelho'
         return mensagem , image_file
     else:
-        return 'Informe os valores corretamente', "logo.jpeg"
+        return 'Informe os valores corretamente'
 
 #grafico 1 
 @app.callback([
