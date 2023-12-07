@@ -9,8 +9,6 @@ from math import sqrt
 import tkinter as tk
 import numpy as np
 import sympy as sp
-from PIL import Image
-import base64
 
 
 #margem de erro nos graficos
@@ -327,6 +325,7 @@ def graf2(n_clicks, distancia = 0, velocidade_icv = 0, aceleracao_cv = 0, veloci
     fig.update_layout(main_config, yaxis={'title': 'Velociade(m/s)'}, xaxis={'title': "Distância(m)"}, height=425)
     fig.update_layout({"legend": {"yanchor": "top", "y": 0.99, "font": {"color": "white", 'size': 10}}})
     
+
     return fig, f'Velocidade Final: {velocidadeF_cv:.2f} m/s', f'Velocidade Final: {velocidadeF_ca:.2f} m/s'
 
 if __name__ == "__main__":
