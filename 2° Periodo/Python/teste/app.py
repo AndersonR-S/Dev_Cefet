@@ -31,7 +31,7 @@ def simular_corrida():
 
             # Atualiza a posição do carro na interface
             canvas.delete("carro")
-            carro_x = 10 + (posicao / comprimento_pista) * 1000  # Posição horizontal do carro na tela
+            carro_x = (posicao / comprimento_pista) * 1000  # Posição horizontal do carro na tela
             carro_y = 100  # Altura do carro
             canvas.create_image(carro_x, carro_y, anchor=tk.W, image=carro_imagem, tags="carro")
 

@@ -1,20 +1,17 @@
+from simulador import *
+
 import dash
 from dash import dcc, html, Input, Output
 from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
 import plotly.express as px
 import plotly.graph_objects as go
-
 from math import sqrt
-import tkinter as tk
 import numpy as np
 import sympy as sp
 
-
 #margem de erro nos graficos
-tam = 0.01
-
-tam = float(tam)
+tam = float(0.01)
 
 main_config = {
     "hovermode": "x unified",
@@ -28,13 +25,7 @@ main_config = {
     "margin": {"l":0, "r":0, "t":10, "b":0}
 }
 
-def Corrida():
-    janela = tk.Tk()
-    janela.title("Simulador de Corrida de Carro")
-    # Defina o tamanho da janela para 1200x900 pixels
-    janela.geometry("1200x900")
-    janela.mainloop()
-    
+
 def calcular_tempo(s, s0, v0, a):
     s = float(s)
     s0 = float(s0)
@@ -101,7 +92,12 @@ app.layout = html.Div(
                     dbc.Col(
                         dbc.Card([
                             html.H4(children="Esperando o Vencedor", id= "titulo_ganhador"),
-                            html.Img(id="img_ganhador", src="", style={'marginTop':'20px','class':"fit-picture"})                        ], style={"height": "45vh", "text-align": "center","padding": "20px"}),
+                            
+                            dbc.Button("Simular Corrida", id="button_corrida", style={"padding": "6px", "margin": "10px", "background": "green", "border": "green", "font-size": "17px"}),
+                            html.Div(id='output_div')
+                            ], style={"height": "45vh", "text-align": "center","padding": "20px"}),
+                            
+
                         sm=4,style={"text-align": "center"}
                     ),
                     dbc.Col([
@@ -125,7 +121,7 @@ app.layout = html.Div(
                                     dbc.Card([
                                         dbc.Row([
                                             dbc.Col([
-                                                html.H4(children="Dados do Carro Vermelho", id= "titulo_vermelho"),
+                                                html.H4(children="Dados do Carro Vermelho"),
                                                 html.Hr(),
                                                 html.H6(children="Tempo: --", id= "cv_tempo"),
                                                 html.H6(children="Aceleração: --", id= "cv_aceleracao"),
@@ -133,7 +129,7 @@ app.layout = html.Div(
                                                 html.H6(children="Velocidade Final: --", id= "cv_velociadeF"),
                                             ]),
                                             dbc.Col([
-                                                html.H4(children="Dados do Carro Azul", id= "titulo_vermelho"),
+                                                html.H4(children="Dados do Carro Azul"),
                                                 html.Hr(),
                                                 html.H6(children="Tempo: --", id= "ca_tempo"),
                                                 html.H6(children="Aceleração: --", id= "ca_aceleracao"),
@@ -212,7 +208,6 @@ def highlight_inputs(n_clicks, distancia, velocidade_inicial_cv, aceleracao_cv, 
 #ganhador
 @app.callback([
     Output('titulo_ganhador','children'),
-    Output('img_ganhador','src')
 ],
      [Input('button_iniciar', 'n_clicks')],
      [State('input_pista', 'value'),
@@ -223,33 +218,30 @@ def highlight_inputs(n_clicks, distancia, velocidade_inicial_cv, aceleracao_cv, 
 )
 def ganhador(n_clicks, distancia,velocidade_icv = 0, aceleracao_cv=0, velocidade_ica=0, aceleracao_ca=0):
     if distancia == 0 and velocidade_icv == 0 and aceleracao_cv == 0 and velocidade_ica == 0 and aceleracao_ca == 0:
-        return 'Informe os valores corretamente', ""
-
+        return ['Informe os valores corretamente']
 
     tempo_cv = calcular_tempo(distancia, 0, velocidade_icv, aceleracao_cv)
     tempo_ca = calcular_tempo(distancia, 0,velocidade_ica, aceleracao_ca)
 
-    image_file= ""
-
     if tempo_ca != 0 and tempo_cv != 0:
             if tempo_ca < tempo_cv:
-                mensagem = 'O ganhador é o Carro Azul'
-                return mensagem , image_file
+                mensagem = ['O ganhador é o Carro Azul']
+                return mensagem 
             elif tempo_ca == tempo_cv:
-                mensagem = "Deu Empate"
-                return mensagem , image_file
+                mensagem = ["Deu Empate"]
+                return mensagem 
             else:
-                mensagem = 'O ganhador é o Carro Vermelho'
-                return mensagem , image_file
+                mensagem = ['O ganhador é o Carro Vermelho']
+                return mensagem
     elif tempo_ca !=0 and tempo_cv ==0:
-        mensagem = 'O ganhador é o Carro Azul'
-        return mensagem , image_file
+        mensagem = ['O ganhador é o Carro Azul']
+        return mensagem 
     
     elif tempo_ca ==0 and tempo_cv !=0:
-        mensagem = 'O ganhador é o Carro Vermelho'
-        return mensagem , image_file
+        mensagem = ['O ganhador é o Carro Vermelho']
+        return mensagem 
     else:
-        return 'Informe os valores corretamente'
+        return ['Informe os valores corretamente']
 
 #grafico 1 
 @app.callback([
@@ -327,6 +319,33 @@ def graf2(n_clicks, distancia = 0, velocidade_icv = 0, aceleracao_cv = 0, veloci
     
 
     return fig, f'Velocidade Final: {velocidadeF_cv:.2f} m/s', f'Velocidade Final: {velocidadeF_ca:.2f} m/s'
+
+@app.callback(
+    Output('output_div', 'children'),
+    [Input('button_corrida', 'n_clicks')],
+    [State('input_pista', 'value'),
+     State('input_velocidade_inicial_cv', 'value'),
+     State('input_aceleracao_cv', 'value'),
+     State('input_velocidade_inicial_ca', 'value'),
+     State('input_aceleracao_ca', 'value')]
+)
+def chamarCorrida(c_Corrida, distancia = 0, velocidade_icv = 0, aceleracao_cv = 0, velocidade_ica = 0, aceleracao_ca = 0):
+    tempo_cv= calcular_tempo(distancia, 0, velocidade_icv, aceleracao_cv)
+    tempo_ca = calcular_tempo(distancia, 0, velocidade_ica, aceleracao_ca)
+
+    vec_tempo_cv = np.arange(0, tempo_cv + tam, tam)
+    vec_tempo_ca = np.arange(0, tempo_ca + tam, tam)
+
+    deslocamento_cv = distanciaGrafico(vec_tempo_cv, float(velocidade_icv), float(aceleracao_cv))
+    deslocamento_ca = distanciaGrafico(vec_tempo_ca, float(velocidade_ica), float(aceleracao_ca))
+  
+    if distancia and distancia != "0" and deslocamento_ca and deslocamento_cv:
+        corrida_simulator = CorridaSimulator(float(distancia), deslocamento_cv, deslocamento_ca)
+        corrida_simulator.iniciar_corrida()
+        return "Entrando na simulaçao"
+    else:
+        return ""
+
 
 if __name__ == "__main__":
     app.run_server(debug=True)
