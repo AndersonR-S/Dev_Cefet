@@ -29,16 +29,16 @@ O trabalho é direcionado ao desenvolvimento do Jogo da Vida, um autômato celul
 
 ### Arquivos do Projeto e seus Fluxos
 #### 1. datasets/input.mps 
-    Arquivo destinado para os dados da matrix de entrada.
+Arquivo destinado para os dados da matrix de entrada.
 
-    Nesse arquivo encontra a matriz e sua dimensão:
+Nesse arquivo encontra a matriz e sua dimensão:
 <div align = "center" >
     <img src="img/figura_2.png" height="30%" width="30%">
     <p>Figura 2: Exemplo de entrada de uma matrix de 5x5</p>
 </div>
 
 #### 2. datasets/geracoes.mps
-    Arquivo destinado para as gerações das matrizes.
+Arquivo destinado para as gerações das matrizes.
 
 <div align = "center" >
     <img src="img/figura_3.png" height="30%" width="30%">
@@ -46,9 +46,9 @@ O trabalho é direcionado ao desenvolvimento do Jogo da Vida, um autômato celul
 </div>
 
 #### 3. arquivo.cpp e arquivo.hpp
-    São arquivos para manipulação dos dados de entrada e saída. Sendo o arquivo.hpp como a biblioteca das funções do arquivo.cpp.
+São arquivos para manipulação dos dados de entrada e saída. Sendo o arquivo.hpp como a biblioteca das funções do arquivo.cpp.
 
-    Nesses arquivos estão contidas as seguintes variaveis e funções:
+Nesses arquivos estão contidas as seguintes variaveis e funções:
 
 + Variaveis:
     - string nome_input: Recebe o caminho do arquivo de entrada.
@@ -69,9 +69,9 @@ O trabalho é direcionado ao desenvolvimento do Jogo da Vida, um autômato celul
     - **~Arquivo()**: Desconstrutor da classe.
 
 #### 4. tabuleiro.cpp e tabuleiro.hpp
-    Responsavel por salvar os dados manipulados das matrizes. Sendo o tabuleiro.hpp como a biblioteca das funções do tabuleiro.cpp.
+Responsavel por salvar os dados manipulados das matrizes. Sendo o tabuleiro.hpp como a biblioteca das funções do tabuleiro.cpp.
 
-    Nesses arquivos estão contidas as seguintes variaveis e funções: 
+Nesses arquivos estão contidas as seguintes variaveis e funções: 
 
 + Variaveis: 
     - **short tamanho**: Responsavel por salvar o tamanho da matriz.
@@ -91,7 +91,20 @@ O trabalho é direcionado ao desenvolvimento do Jogo da Vida, um autômato celul
     - **~Tabuleiro()** : Desconstrutor da classe.
 
 #### 5. jogo.cpp e jogo.hpp
-    Responsavel por manipular os dados da matrix de acordo as regras. Sendo o jogo.hpp como a biblioteca das funções do jogo.cpp.
+Responsavel por manipular os dados da matrix de acordo as regras. Sendo o jogo.hpp como a biblioteca das funções do jogo.cpp.
+
+Nesses arquivos estão contidas as seguintes variaveis e funções: 
+
++ Variaveis: 
+    - **Arquivo *arquivo**: Responsavel por salvar os dados da classe Arquivo.
+
++ Funções: 
+    - **Jogo()**: Construtor do Classe Jogo.
+    - **void iniciarJogo()**: A única classe publica que é responsavel de começar o jogo. Nessa função, que ocorre a manipulção do arquivo.
+    - **bool checarIgualdade(vector<short>tabuleiro, vector<short>sub_tabuleiro, short tamanho)**: checa se a nova geração é igual à anterior.
+    - **void relatorio(const string& mensagem = "", Arquivo* arquivo = nullptr)**: Onde ocore a transferência dos dados de saidas, como a mostragem da matriz gerada e sua modificações e a chamada da função output.
+    - **short verificacao(Tabuleiro *tabuleiro,  short posicao)**: Verifica quantos células vivas estão na borda de uma posição.
+    - **~Jogo()**: Desconstrutor da classe.
 
 #### 6. main.cpp
     Arquivo responsavel de começar o Jogo da Vida.
