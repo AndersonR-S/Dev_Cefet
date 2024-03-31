@@ -27,7 +27,76 @@ O trabalho é direcionado ao desenvolvimento do Jogo da Vida, um autômato celul
 </div>
 
 
-### 
+### Arquivos do Projeto e seus Fluxos
+#### 1. datasets/input.mps 
+    Arquivo destinado para os dados da matrix de entrada.
+
+    Nesse arquivo encontra a matriz e sua dimensão:
+<div align = "center" >
+    <img src="img/figura_2.png" height="30%" width="30%">
+    <p>Figura 2: Exemplo de entrada de uma matrix de 5x5</p>
+</div>
+
+#### 2. datasets/geracoes.mps
+    Arquivo destinado para as gerações das matrizes.
+
+<div align = "center" >
+    <img src="img/figura_3.png" height="30%" width="30%">
+    <p>Figura 3: Exemplo de saida de matrizes, do primeiro e a sua próxima geração</p>
+</div>
+
+#### 3. arquivo.cpp e arquivo.hpp
+    São arquivos para manipulação dos dados de entrada e saída. Sendo o arquivo.hpp como a biblioteca das funções do arquivo.cpp.
+
+    Nesses arquivos estão contidas as seguintes variaveis e funções:
+
++ Variaveis:
+    - string nome_input: Recebe o caminho do arquivo de entrada.
+    - string nome_output: Recebe o caminho de saida.
+    - Tabuleiro *novo_tabuleiro: Salva o matriz de entrada e das futuras gerações
+
++ Funções: 
+    - **Arquivo(string nome_input, string nome_output)**: Construtor do Classe Arquivo e seus valores de entrada.
+
+    - **void input()**: Onde ocorre a manipulação do arquivo de entrada, ler o tamanho e os dados da matriz e salva-os na variavel novo_tabuleiro. Tambem é responsavel por resolver algumas condições.
+
+    - **void output()**: Ocorre a manipulação do arquivo de saida, onde ler a matriz atual e escreve no arquivo.
+
+    - **Tabuleiro *getNovoTabuleiro()const**: Função responsavel por chamar a variavel novo_tabuleiro.
+
+    - **void setTabuleiro(vector<short> tabuleiro)**: Função responsavel por transcrever a nova matrix na antiga.
+
+    - **~Arquivo()**: Desconstrutor da classe.
+
+#### 4. tabuleiro.cpp e tabuleiro.hpp
+    Responsavel por salvar os dados manipulados das matrizes. Sendo o tabuleiro.hpp como a biblioteca das funções do tabuleiro.cpp.
+
+    Nesses arquivos estão contidas as seguintes variaveis e funções: 
+
++ Variaveis: 
+    - **short tamanho**: Responsavel por salvar o tamanho da matriz.
+    - **vector<short> *tabuleiro**: Responsavel por salvar a matrix.
+    
++ Funções: 
+    - **Tabuleiro(short tamanho)**: Construtor do Classe Tabuleiro e seu valor de entrada.
+
+    - **void print()**: Imprimi na tela a matriz atual.
+
+    - **void setTabuleiro(vector<short> tabuleiro)**: Função responsavel por transcrever a nova matrix na antiga.
+
+    - **vector<short> getTabuleiro() const** : Responsavel por chamar a variavel tabuleiro, onde se encontra a matrix.
+
+    - **short getTamanho() const**: Responavel por chamar a variavel tamanho.
+
+    - **~Tabuleiro()** : Desconstrutor da classe.
+
+#### 5. jogo.cpp e jogo.hpp
+    Responsavel por manipular os dados da matrix de acordo as regras. Sendo o jogo.hpp como a biblioteca das funções do jogo.cpp.
+
+#### 6. main.cpp
+    Arquivo responsavel de começar o Jogo da Vida.
+
+
 
 
 
