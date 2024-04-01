@@ -120,7 +120,3 @@ O projeto disponibilizado possui um arquivo Makefile (disponibilizado pelo profe
 |make run 	    |Executa o programa da pasta build após a realização da compilação                       |
 
 
-
-### Referência
-
-issue edfs
