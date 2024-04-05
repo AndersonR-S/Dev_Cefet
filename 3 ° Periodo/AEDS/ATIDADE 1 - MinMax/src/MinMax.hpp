@@ -6,19 +6,21 @@ using namespace std;
 
 class MinMax{
 private:
-    vector <int> MinMax1;
-    vector <int> MinMax2;
-    vector <int> MinMax3;
+    vector <int> min_max;
     int size;
 
 public:
+    MinMax();
     MinMax(int size);
 
-    void run();
+    void run(int repeat = 10);
+    void generate();
 
-    vector<int> getMinMax1()const;
-    vector<int> getMinMax2()const;
-    vector<int> getMinMax3()const;
+    void setSize(int size);
+
+   //vector<int> getMinMax1()const;
+   // vector<int> getMinMax2()const;
+   // vector<int> getMinMax3()const;
 
     ~MinMax();
 };
