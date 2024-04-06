@@ -15,9 +15,10 @@ void Arquivo::input()
         exit(0);
     }
 
+
     //leitura do tamanho n do tabuleiro
     short tamanho_n;
-
+    
     file>>tamanho_n;
     file.ignore();
 
