@@ -1,15 +1,15 @@
 #ifndef FILE_HPP
 #define FILE_HPP
 
-#define output_ordered "datagets/ordenado.csv"
-#define output_growing "datagets/crescente.csv"
-#define output_decreasing "datagets/ordenado.csv"
-
+#include <string>
 using namespace std;
-
 
 class File{
 private:
+    const string output_ordered = "datagets/ordered.csv";
+    const string output_growing = "datagets/growing.csv";
+    const string output_decreasing = "datagets/decreasing.csv";
+
 
 public:
     File();

@@ -1,6 +1,7 @@
 #ifndef MINMAX_HPP
-#include MINIMAX_HPP
+#define MINMAX_HPP
 
+#include "File.hpp"
 #include <vector>
 using namespace std; 
 
@@ -9,20 +10,21 @@ private:
     vector <int> min_max;
     int size;
 
+    long MinMax1();
+    long MinMax2();
+    long MinMax3();
+
+    void growingMinMax();
+    void decreasingMinMax();
+
 public:
     MinMax();
     MinMax(int size);
 
-    void run(int repeat = 10);
+    void run(File *file, int repeat = 10);
     void generate();
-
     void setSize(int size);
 
-   //vector<int> getMinMax1()const;
-   // vector<int> getMinMax2()const;
-   // vector<int> getMinMax3()const;
-
-    ~MinMax();
 };
 
 #endif

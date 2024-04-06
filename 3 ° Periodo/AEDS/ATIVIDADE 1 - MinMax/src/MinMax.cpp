@@ -3,10 +3,15 @@
 #include <fstream>
 #include <chrono>
 #include <iomanip>
+#include <algorithm>
 
-long MinMax1( )
+MinMax::MinMax(int size) : min_max(size), size(size) {}
+
+MinMax::MinMax():min_max(),size(0){}
+
+long MinMax::MinMax1( )
 {
-    int max , mim;
+    int max , min;
 
     auto t1 = chrono::steady_clock::now();
 
@@ -28,7 +33,7 @@ long MinMax1( )
     return chrono::duration_cast<chrono::nanoseconds>(t2-t1).count();
 }
 
-long MinMax2() 
+long MinMax::MinMax2() 
 {
     int max, min;
     auto t1 = chrono::steady_clock::now();
@@ -48,16 +53,18 @@ long MinMax2()
     }
     auto t2 = chrono::steady_clock::now();
 
+
+
     return chrono::duration_cast<chrono::nanoseconds>(t2-t1).count();
 }
 
-long MinMax3()
+long MinMax::MinMax3()
 {
     int max, min;
 
     if((size % 2) != 0)
     {
-        MinMax.push_back(min_max[0]); 
+        min_max.push_back(min_max[0]); 
     }
 
     auto t1 = chrono::steady_clock::now();
@@ -92,7 +99,7 @@ long MinMax3()
             {
                 max = min_max[i+1];
             }
-            if(MinMax[i] < min)
+            if(min_max[i] < min)
             {
                 min = min_max[i];
             }
@@ -104,28 +111,17 @@ long MinMax3()
     return chrono::duration_cast<chrono::nanoseconds>(t2-t1).count();
 }
 
-void ordenarCrescente()
+void MinMax::growingMinMax()
 {
-    return;
-}
-void ordenarDecrescente()
-{
-    return;
-}
-//-------------------------------------------------
-
-MinMax::MinMax(int size):size(size)
-{
-    min_max = new Vector <int>(size);
+    sort(min_max.begin(), min_max.end());
 }
 
-MinMax::MinMax()
+void MinMax::decreasingMinMax()
 {
-    size = 0;
-    min_max = nullptr;
+    sort(min_max.begin(), min_max.end(), std::greater<int>());
 }
 
-void MinMax::run(int repeat, File file)
+void MinMax::run(File *file, int repeat)
 {
     long mm1, mm2, mm3;
     //ordenado
@@ -140,30 +136,44 @@ void MinMax::run(int repeat, File file)
     mm2 /= repeat;
     mm3 /= repeat;
 
+    file->FileOrdered(size, mm1, mm2, mm3);
 
-    mm1 = mm2 = mm3 =0;
     //crescente
+    mm1 = mm2 = mm3 =0;
+    growingMinMax();
     for(int i = 0;  i < repeat; i++)
     {
-        MinMax1();
-        MinMax2();
-        MinMax3();
+        mm1 += MinMax1();
+        mm2 += MinMax2();
+        mm3 += MinMax3();
     }
+    mm1 /= repeat;
+    mm2 /= repeat;
+    mm3 /= repeat;
+
+    file->FileGrowing(size, mm1, mm2, mm3);
+
 
     //decrescente
+    mm1 = mm2 = mm3 =0;
+    decreasingMinMax();
     for(int i = 0;  i < repeat; i++)
     {
-        MinMax1();
-        MinMax2();
-        MinMax3();
+        mm1 += MinMax1();
+        mm2 += MinMax2();
+        mm3 += MinMax3();
     }
+    mm1 /= repeat;
+    mm2 /= repeat;
+    mm3 /= repeat;
+
+    file->FileDecreasing(size, mm1, mm2, mm3);
 
 
 
 
 
 }
-
 
 void MinMax::generate()
 {
@@ -176,15 +186,6 @@ void MinMax::generate()
 void MinMax::setSize(int size)
 {
     this->size = size;
-    ~MinMax();
-    min_max = new Vector <int>(size); 
-}
-
-MinMax::~MinMax()
-{
-    if(min_max != nullptr)
-    {
-        delete min_max;
-    }
+    min_max = std::vector<int>(size);
 }
 
