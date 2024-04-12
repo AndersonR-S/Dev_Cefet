@@ -1,5 +1,5 @@
 CXX      := -g++
-CXXFLAGS := -Wall -Wextra -Werror
+CXXFLAGS := -Wall -Wextra -Werror -d
 LDFLAGS  := -lstdc++ -lm
 BUILD    := ./build
 OBJ_DIR  := $(BUILD)/objects
@@ -38,3 +38,14 @@ clean:
 
 run:
 	./$(BUILD)/$(TARGET)
+
+_graph:
+	gnuplot graph/cmd_grafico.gnuplot 
+
+graph_view:
+	feh graph/img/*.png
+
+install gnuplot:
+	sudo apt-get install gnuplot plotutils feh
+
+
