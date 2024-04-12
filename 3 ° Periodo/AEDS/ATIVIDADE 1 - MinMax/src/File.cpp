@@ -41,7 +41,6 @@
         file3.close();
     }
 
-
     void File::FileOrdered(int size, int mm1, int mm2, int mm3)
     {
         fstream file(output_ordered, ios::app);
