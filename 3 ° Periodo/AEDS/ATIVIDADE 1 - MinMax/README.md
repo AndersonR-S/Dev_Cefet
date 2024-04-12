@@ -18,6 +18,9 @@
 
  <h2>Referencia</h2>
  <p>
+ <a href="docs/Mimmax.pdf" target="_self">[1] - Documento da proposta da atividade</a><br>
+ <a href="docs/Mimmax.pdf" target="_blank">[1] - Documento da proposta da atividade</a><br>
+ <a href="docs/Mimmax.pdf" target="_parent">[1] - Documento da proposta da atividade</a><br>
  <a href="docs/Mimmax.pdf" target="_top">[1] - Documento da proposta da atividade</a>
 
     
